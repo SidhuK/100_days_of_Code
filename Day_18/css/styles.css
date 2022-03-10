@@ -1,0 +1,21 @@
+<style>
+body {
+    background-color: rgb(134, 211, 204);
+}
+
+hr {
+    background-color: whitesmoke;
+    border-style: dashed;
+    border-width: 3px;
+    width: 30%;
+}
+
+h1 {
+    color: blueviolet;
+}
+
+h3 {
+    color: darkseagreen;
+}
+
+</style>
