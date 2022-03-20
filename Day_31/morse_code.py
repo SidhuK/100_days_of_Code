@@ -1,22 +1,24 @@
-# You will use what you've learnt to create a text-based (command line) program that takes any String input and
+# You will use what you've learnt to create
+# a text-based (command line) program that takes any String input and
 # converts it into Morse Code.
-#
-# You've created plenty of text-based programs in Days 1 -10, so look back at some of those projects if you don't
-# remember what a text-base program looks like.
-#
-# Wikipedia Entry for Morse Code
-#
-# The design, functionality, code style is all up to you. You're wearing the big-girl/big-boy pants now. So you get
-# to decide.
 
-
+# Imports the key from the key.py file
 from key import key
 
-# ask for input()
-morse_input = input("What would you like to translate to morse?: ")
 
-# split the input into individual letters
+# ask for input() from the user, convert it into lowercase
+morse_input = input("What would you like to translate to morse?: ").lower()
 
-# use those letters to find corresponding code from key.py
+# use those letters to find corresponding code from key.py using map function,
+# join using spaces in between each code
+morse = ' '.join(map(key.get, morse_input))
 
-# get the output and print it.
+# print the morse code
+print(f"You input '{morse_input}' to translate into morse. \nIt translates to the following in "
+      f"morse code: \n{morse}\nNOTE: The morse code is not case sensitive")
+
+
+# potential additions:
+# add a text input using turtle
+# make a GUI for the entire program.
+# make a function to translate everything, the morse variable could be a function.
