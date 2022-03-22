@@ -1,12 +1,10 @@
 ---
 title: "Baby_Names_TidyTuesday"
-output: html_document
+output: github_document
+html_preview: false
 date: '2022-03-21'
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 ## R Markdown
 
