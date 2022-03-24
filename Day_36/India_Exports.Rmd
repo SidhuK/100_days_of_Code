@@ -1,0 +1,206 @@
+---
+title: "India_Exports"
+author: "Karat Sidhu"
+date: '2022-03-23'
+output: github_document
+html_preview: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(ggtext)
+library(lubridate)
+library(patchwork)
+library(hrbrthemes)
+
+```
+
+
+```{r loading_data}
+exports_master <- read_csv("exports and imports of india(1997-2022) - exports and imports.csv")
+```
+
+```{r}
+
+USA_trade <- exports_master %>%
+  filter(Country == "U S A")
+USA_trade
+
+```
+
+```{r}
+USA_trade$`Year(start)` <-
+  lubridate::parse_date_time(USA_trade$`Year(start)`, '%y')
+USA_trade$`Total Trade` <- as.integer(USA_trade$`Total Trade`)
+
+USA_trade
+
+```
+
+
+
+
+```{r}
+USA_trade_net <- USA_trade %>%
+  mutate(total_profit = (Export - Import))
+USA_trade_net
+```
+
+
+
+```{r}
+
+p1 <-
+  ggplot(USA_trade_net, mapping = aes(x = `Year(start)`, y = `Total Trade`)) +
+  geom_line(aes(x = `Year(start)`, y = `Total Trade`),
+            size = 0.5,
+            color = "darkorange") +
+  geom_point(aes(x = `Year(start)`, y = `Total Trade`),
+             size = 2,
+             color = "darkorange") +
+  labs(caption = " **Total** Import + Export") +
+  theme(plot.title = ggtext::element_markdown()) +
+  theme(plot.caption = element_markdown()) +
+  theme( 
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(color = "#b4aea9", linetype = "dashed"),
+    
+    # Use a light color for the background of the plot and the panel.
+    panel.background = element_rect(fill = "#fbf9f4", color = "#fbf9f4"),
+    plot.background = element_rect(fill = "#fbf9f4", color = "#fbf9f4"),
+    axis.title.x = element_blank()
+  )
+
+p1
+
+
+
+```
+
+
+
+```{r}
+p2 <-
+  ggplot(
+    USA_trade_net,
+    mapping = aes(
+      x = `Year(start)`,
+      y = `Import`,
+      fill = "darkorange",
+      color = "black"
+    )
+  ) +
+  geom_col(aes()) +
+  theme(plot.title = ggtext::element_markdown(hjust = 0)) +
+  theme_minimal() +
+  theme(plot.caption = element_markdown()) +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank()) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(color = "#b4aea9", linetype = "dashed"),
+    
+    # Use a light color for the background of the plot and the panel.
+    panel.background = element_rect(fill = "#fbf9f4", color = "#fbf9f4"),
+    plot.background = element_rect(fill = "#fbf9f4", color = "#fbf9f4")
+  ) + scale_fill_manual(values = "#00008B", labels = NULL) +
+  labs(caption = " Total **Import**") +
+  scale_color_manual(values = "black") +
+  theme(legend.position = "none") + theme(plot.caption = element_markdown())
+
+```
+
+```{r}
+
+p3 <-
+  ggplot(
+    USA_trade_net,
+    mapping = aes(
+      x = `Year(start)`,
+      y = `Export`,
+      fill = "darkorange",
+      color = "black"
+    )
+  ) +
+  geom_col()  +
+  theme(plot.title = ggtext::element_markdown(hjust = 0)) +
+  theme_minimal() +
+  theme(plot.caption = element_markdown()) +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank()) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(color = "#b4aea9", linetype = "dashed"),
+    
+    # Use a light color for the background of the plot and the panel.
+    panel.background = element_rect(fill = "#fbf9f4", color = "#fbf9f4"),
+    plot.background = element_rect(fill = "#fbf9f4", color = "#fbf9f4")
+  ) + scale_fill_manual(values = "#FF8C00", labels = NULL) +
+  labs(caption = " Total **Export**") +
+  scale_color_manual(values = "black") +
+  theme(legend.position = "none") + theme(plot.caption = element_markdown())
+
+p3
+```
+```{r}
+
+p4 <-
+  ggplot(USA_trade_net, mapping = aes(x = `Year(start)`, y = total_profit)) +
+  geom_line(aes(), size = 0.9) +
+  geom_point(aes(), size = 1.5) +
+  labs(caption = " <span style = 'color:darkorange'>**Profit**</span> =  export - import") +
+  theme_minimal() +
+  theme(plot.title = ggtext::element_markdown()) +
+  theme(plot.caption = element_markdown())  +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(color = "#b4aea9", linetype = "dashed"),
+    # Use a light color for the background of the plot and the panel.
+    panel.background = element_rect(fill = "#fbf9f4", color = "#fbf9f4"),
+    plot.background = element_rect(fill = "#fbf9f4", color = "#fbf9f4")
+  ) + ylab("Total Profit Observed")
+
+
+```
+
+
+
+```{r}
+
+plot_master <- (p1 + (p2 / p3)) / p4
+plot_final <- plot_master + plot_annotation(
+  title = 'Import and Export Trends between India and USA',
+  subtitle = 'A Brief Overview of the profit over the years between the two countries and its general trend.',
+  caption = 'Disclaimer: Unit of Revenue was not provided in the original dataset',
+  theme = theme(
+    plot.title = element_text(hjust = 0, face = "bold",),
+    plot.background = element_rect(fill = "whitesmoke")
+  )
+) 
+
+```
+
+```{r}
+
+ggsave(
+  filename = "survival-curves.png",
+  plot = print(plot_final),
+  width = 20,
+  height = 16,
+  dpi = 250
+)
+
+```
+
+
+
+
+
