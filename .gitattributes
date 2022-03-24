@@ -2,4 +2,4 @@
 * text=auto
 *.js linguist-detectable=true
 *.py linguist-detectable=true
-
+*.ipynb linguist-detectable=false
