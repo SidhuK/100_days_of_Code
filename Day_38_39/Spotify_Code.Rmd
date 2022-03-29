@@ -1,0 +1,81 @@
+---
+title: "Spotify Data"
+author: "Karat Sidhu"
+date: '2022-03-27'
+output: html_document
+---
+
+# Spotify Data Charts Analysis
+
+Learning and practicing Dplyr and GGplot using a sample dataset.
+
+### Loading Packages
+
+```{r}
+library(tidyverse)
+
+```
+
+### Lading the dataset
+
+```{r}
+
+spotify_master <- read.csv("top2018.csv")
+head(spotify_master, 3)
+
+```
+
+### Wrangling Data
+
+```{r}
+spotify_master %>% 
+  filter(artists=="Drake", key == 7) 
+
+```
+
+
+
+
+```{r}
+
+ggplot(spotify_master) +
+  geom_violin(aes(x = mode, danceability, group = mode, fill = as.factor(mode))) +
+  theme_classic() +
+   scale_fill_manual(values=c("red", "#00FF00")) 
+
+```
+
+```{r}
+
+spotify_master %>% 
+  filter(mode == 1) %>% 
+  select(tempo, artists, key, name, energy ) %>% 
+  arrange(desc(tempo))
+```
+
+```{r}
+
+model1 <- lm(energy ~ tempo, data = spotify_master)
+summary(model1)
+
+```
+
+
+```{r}
+
+
+ggplot(spotify_master) +
+ aes(x = danceability, y = tempo, colour = loudness, size = acousticness) +
+ geom_jitter() +
+ scale_color_distiller(palette = "RdYlBu", direction = -1) +
+ labs(x = "Danceability", y = "Tempo", 
+ title = "Daceability vs Tempo", subtitle = "Spotify 2008 Top Charts", caption = "Source: Kaggle.com", 
+ color = "Loudness", size = "Acousticness") +
+ theme_light() +
+ theme(plot.title = element_text(size = 18L, 
+ face = "bold", hjust = 0.5), plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5)) +
+ facet_wrap(vars(mode), scales = "free")
+
+
+```
+
