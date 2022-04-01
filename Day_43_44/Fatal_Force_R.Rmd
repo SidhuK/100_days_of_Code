@@ -1,0 +1,517 @@
+---
+title: "US_Justice"
+author: "Karat Sidhu"
+date: '2022-03-31'
+output: github_document
+html_preview: false
+---
+
+# Introduction
+
+Since Jan. 1, 2015, [The Washington Post](https://www.washingtonpost.com/) has been compiling a database of every fatal shooting in the US by a police officer in the line of duty. 
+
+<center><img src=https://i.imgur.com/sX3K62b.png></center>
+
+While there are many challenges regarding data collection and reporting, The Washington Post has been tracking more than a dozen details about each killing. This includes the race, age and gender of the deceased, whether the person was armed, and whether the victim was experiencing a mental-health crisis. The Washington Post has gathered this supplemental information from law enforcement websites, local new reports, social media, and by monitoring independent databases such as "Killed by police" and "Fatal Encounters". The Post has also conducted additional reporting in many cases.
+
+There are 4 additional datasets: US census data on poverty rate, high school graduation rate, median household income, and racial demographics. [Source of census data](https://factfinder.census.gov/faces/nav/jsf/pages/community_facts.xhtml).
+
+
+# Loading Packages
+
+```{r}
+library(tidyverse)
+
+```
+
+
+# Datasets to use:
+
+df_hh_income = pd.read_csv('Median_Household_Income_2015.csv', encoding="windows-1252")
+df_pct_poverty = pd.read_csv('Pct_People_Below_Poverty_Level.csv', encoding="windows-1252")
+df_pct_completed_hs = pd.read_csv('Pct_Over_25_Completed_High_School.csv', encoding="windows-1252")
+df_share_race_city = pd.read_csv('Share_of_Race_By_City.csv', encoding="windows-1252")
+df_fatalities = pd.read_csv('Deaths_by_Police_US.csv', encoding="windows-1252")
+
+```{r}
+
+hh_income <- read.csv("Median_Household_Income_2015.csv")
+pct_poverty<- read.csv("Pct_People_Below_Poverty_Level.csv")
+pct_completed_hs <- read.csv("Pct_Over_25_Completed_High_School.csv")
+share_race_city <- read.csv("Share_of_Race_By_City.csv")
+fatalities <- read.csv("Deaths_by_Police_US.csv")
+
+```
+
+
+# Preliminary Data Exploration
+
+* What is the shape of the DataFrames? 
+* How many rows and columns do they have?
+* What are the column names?
+* Are there any NaN values or duplicates?
+
+
+### Shape of Data
+```{r}
+
+dim(share_race_city)
+dim(fatalities)
+dim(hh_income)
+dim(pct_completed_hs)
+dim(pct_poverty)
+
+
+
+```
+
+### Column names
+
+```{r}
+
+colnames(share_race_city)
+colnames(fatalities)
+colnames(hh_income)
+colnames(pct_completed_hs)
+colnames(pct_poverty)
+```
+
+## Data Cleaning - Check for Missing Values and Duplicates
+
+Consider how to deal with the NaN values. Perhaps substituting 0 is appropriate. 
+
+
+```{r}
+
+any(is.na(fatalities))
+any(is.na(hh_income))
+any(is.na(pct_completed_hs))
+any(is.na(pct_poverty))
+any(is.na(share_race_city))
+
+```
+
+```{r}
+pct_poverty$poverty_rate <- as.numeric(pct_poverty$poverty_rate)
+```
+
+```{r}
+pct_poverty %>% drop_na() %>% head()
+
+```
+
+# Chart the Poverty Rate in each US State
+
+Create a bar chart that ranks the poverty rate from highest to lowest by US state. Which state has the highest poverty rate? Which state has the lowest poverty rate?  Bar Plot
+
+```{r}
+
+poverty_state <- pct_poverty %>% 
+  drop_na() %>%
+  group_by(Geographic.Area) %>%
+  summarise(avg = mean((poverty_rate))) %>%
+  arrange(desc(avg))
+
+
+ggplot(poverty_state, aes(x = reorder(Geographic.Area, avg), y = avg)) +
+  geom_col()  + theme_minimal()
+
+
+```
+
+
+# Chart the High School Graduation Rate by US State
+
+Show the High School Graduation Rate in ascending order of US States. Which state has the lowest high school graduation rate? Which state has the highest?
+```{r}
+pct_completed_hs$percent_completed_hs <- as.numeric(pct_completed_hs$percent_completed_hs)
+
+
+```
+
+```{r}
+
+hs_completed <- pct_completed_hs %>% 
+  drop_na() %>%
+  group_by(Geographic.Area) %>%
+  summarise(avg = mean((percent_completed_hs))) %>%
+  arrange(desc(avg))
+
+hs_completed
+
+```
+
+# Visualise the Relationship between Poverty Rates and High School Graduation Rates
+
+#### Create a line chart with two y-axes to show if the rations of poverty and high school graduation move together.  
+
+
+```{r}
+
+ggplot() +
+  geom_line(
+    data = hs_completed,
+    aes(x = Geographic.Area, y = avg),
+    group = 1,
+    color = "pink"
+  ) +
+  geom_point(data = hs_completed,
+             aes(x = Geographic.Area, y = avg),
+             color = "pink")   +
+  geom_line(
+    data = poverty_state,
+    aes(x = Geographic.Area, y = avg),
+    group = 1,
+    color = "green"
+  ) +
+  geom_point(data = poverty_state,
+             aes(x = Geographic.Area, y = avg),
+             color = "green") +
+  geom_curve(
+    data = data.frame(
+      x = c(38, 31),
+      y = c(25, 88),
+      xend = c(28, 28),
+      yend = c(32, 75)
+    ),
+    mapping = aes(
+      x = x,
+      y = y,
+      xend = xend,
+      yend = yend
+    ),
+    arrow = arrow(30L, unit(0.1, "inches"),
+                  "last", "closed"),
+    inherit.aes = FALSE
+  ) +
+  geom_text(
+    data = data.frame(
+      x = c(28, 22),
+      y = c(69, 28),
+      label = c("Hight School Graduation Rate", "Percent Below Poverty")
+    ),
+    mapping = aes(x = x, y = y, label = label),
+    size = 4.94,
+    fontface = 2,
+    inherit.aes = FALSE
+  ) + theme_minimal()
+
+
+```
+
+## Combined Dataframes; rename columns
+
+```{r}
+combined_poverty_hs <-
+  left_join(hs_completed, poverty_state, by = "Geographic.Area")
+combined_poverty_hs <-
+  rename(combined_poverty_hs, Average_HS = avg.x)
+combined_poverty_hs <-
+  rename(combined_poverty_hs, Average_Poverty = avg.y)
+
+
+```
+
+
+#### Now use a Seaborn .jointplot() with a Kernel Density Estimate (KDE) and/or scatter plot to visualise the same relationship
+
+```{r}
+
+p2 <- p3 <- ggplot(combined_poverty_hs) +
+  aes(x = Average_HS, y = Average_Poverty) +
+  geom_point(shape = "circle", size = 2L, colour = "#440154") +
+  theme_minimal()
+
+ggExtra::ggMarginal(
+  p = p3,
+  type = 'histogram',
+  margins = 'both',
+  size = 5,
+  colour = 'black',
+  fill = '#FF7F7F'
+)
+
+
+
+```
+
+#### Seaborn's `.lmplot()` or `.regplot()` to show a linear regression between the poverty ratio and the high school graduation ratio. 
+
+```{r}
+ggplot(combined_poverty_hs) +
+  geom_point(aes(x = Average_Poverty, y = Average_HS), group = 1) +
+  geom_smooth(aes(x = Average_Poverty, y = Average_HS),
+              method = "lm",
+              size = 1.5) + 
+  theme_minimal()
+
+```
+
+
+
+# Create a Bar Chart with Subsections Showing the Racial Makeup of Each US State
+
+Visualise the share of the white, black, hispanic, asian and native american population in each US State using a bar chart with sub sections. 
+
+```{r}
+
+
+share_race_city$share_asian <- as.numeric(share_race_city$share_asian)
+share_race_city$share_white <- as.numeric(share_race_city$share_white)
+share_race_city$share_black <- as.numeric(share_race_city$share_black)
+share_race_city$share_native_american <- as.numeric(share_race_city$share_native_american)
+share_race_city$share_hispanic <- as.numeric(share_race_city$share_hispanic)
+
+
+as_tibble(share_race_city)
+
+```
+
+
+
+```{r}
+
+summary_race_share <- share_race_city %>% 
+  group_by(Geographic.area) %>% 
+  summarise(across(starts_with("share"), ~ mean(.x, na.rm = TRUE)))
+
+as_tibble(summary_race_share)
+
+```
+
+```{r}
+
+summary_race_share_long <-pivot_longer(summary_race_share, cols = c("share_white", 
+                                                                    "share_black",
+                                                                    "share_native_american",
+                                                                    "share_asian",
+                                                                    "share_hispanic"), names_to = "Race",
+                                       values_to = "Share")
+
+```
+
+```{r}
+
+ggplot(summary_race_share_long) +
+  aes(x = Geographic.area, fill = Race, weight = Share) +
+  geom_bar(position = "fill") +
+  scale_fill_brewer(palette = "Accent", direction = 1) +
+  labs(
+    x = "State",
+    y = "Race",
+    title = "Share of Different Races",
+    subtitle = "As a Percentage of Total"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16L,
+    face = "bold",
+    hjust = 0.5),
+    plot.subtitle = element_text(size = 13L,
+    face = "italic",
+    hjust = 0.5)
+  )
+
+```
+
+
+# Create Donut Chart by of People Killed by Race
+
+Hint: Use `.value_counts()`
+
+
+```{r}
+
+race_fatalities <-  fatalities %>% 
+  group_by(race) %>% 
+  tally()
+
+race_fatalities
+
+```
+```{r}
+
+ggplot(race_fatalities, aes(x = "", y = n, fill = race)) +
+  geom_col(color = "black") +
+  coord_polar(theta = "y") +
+  theme_minimal()
+```
+
+
+
+# Create a Chart Comparing the Total Number of Deaths of Men and Women
+
+Use `df_fatalities` to illustrate how many more men are killed compared to women. 
+
+
+```{r}
+
+
+gender_fatalities <-  fatalities %>% 
+  group_by(gender) %>% 
+  tally()
+
+gender_fatalities %>% 
+  ggplot(aes(x = "", y = n, fill = gender)) +
+  geom_col(color = "black") +
+  coord_polar(theta = "y") +
+  theme_minimal() 
+  
+
+```
+
+
+# Create a Box Plot Showing the Age and Manner of Death
+
+Break out the data by gender using `df_fatalities`. Is there a difference between men and women in the manner of death? 
+
+
+```{r}
+ggplot(fatalities) +
+  aes(x = manner_of_death, y = age, fill = gender) +
+  geom_boxplot() +
+  scale_fill_brewer(palette = "Accent", direction = -1) +
+  theme_minimal()
+
+
+```
+
+
+# Were People Armed? 
+
+In what percentage of police killings were people armed? Create chart that show what kind of weapon (if any) the deceased was carrying. How many of the people killed by police were armed with guns versus unarmed? 
+
+
+```{r}
+
+
+gun_fatalities <- fatalities %>%
+  mutate(gun = ifelse(fatalities$armed == "gun", "gun", "no-gun")) %>%
+  group_by(gun) %>%
+  tally()
+
+
+
+as_tibble(gun_fatalities)
+
+```
+
+```{r}
+
+ggplot(gun_fatalities) +
+  aes(x = gun, fill = gun, weight = n) +
+  geom_bar() +
+  scale_fill_brewer(palette = "Dark2", direction = 1) +
+  labs(title = "Guns vs Non Gun Fatalities") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16L,
+    face = "bold",
+    hjust = 0.5)
+  )
+```
+
+# How Old Were the People Killed?
+
+Work out what percentage of people killed were under 25 years old.  
+
+```{r}
+
+  fatalities %>% 
+  mutate("younger" = ifelse(fatalities$age <=25,"younger", "older")) %>% 
+  group_by(younger) %>% 
+  count() %>% 
+  mutate(percentage = n*100/(1905+553+77))
+
+# percentage was not the most elegant solution, but works.
+ 
+
+```
+
+
+Create a histogram and KDE plot that shows the distribution of ages of the people killed by police. 
+
+```{r}
+
+ggplot(fatalities, aes(x = age)) +
+  geom_histogram(bins = 55L, fill = "#112446") +
+  theme_minimal()
+
+
+```
+
+
+Create a seperate KDE plot for each race. Is there a difference between the distributions? 
+
+
+```{r}
+
+
+fatalities %>%
+ filter(!(race %in% "")) %>%
+ ggplot() +
+  aes(x = age) +
+  geom_histogram(bins = 50, fill = "#EF562D") +
+  theme_minimal() +
+  facet_wrap(vars(race), scales = "free")
+
+```
+
+
+
+# Race of People Killed
+
+Create a chart that shows the total number of people killed by race. 
+
+
+```{r}
+
+
+ fatalities %>% 
+  group_by(race) %>% 
+  count() %>% 
+  ggplot() +
+  geom_col(aes(x=race, y=n)) +
+  theme_minimal()
+
+
+```
+
+# Mental Illness and Police Killings
+
+What percentage of people killed by police have been diagnosed with a mental illness?
+
+
+```{r}
+ fatalities %>% 
+  group_by(signs_of_mental_illness) %>% 
+  count() %>% 
+  mutate(percentage = n*100/(1902+633))
+
+
+```
+
+
+# In Which Cities Do the Most Police Killings Take Place?
+
+Create a chart ranking the top 10 cities with the most police killings. Which cities are the most dangerous?  
+
+
+```{r}
+
+ fatalities %>% 
+  group_by(city) %>% 
+  count() %>% 
+  arrange(desc(n)) %>% 
+  head(10)
+
+```
+
+
+
+
+# Epilogue
+
+Now that you have analysed the data yourself, read [The Washington Post's analysis here](https://www.washingtonpost.com/graphics/investigations/police-shootings-database/).
+
+
