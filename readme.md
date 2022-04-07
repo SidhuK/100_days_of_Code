@@ -200,9 +200,32 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 
 
 ### Day 47
-### Day 48
+- Webdev Sidhuk.github.io
+### Day 48 and 49
+- Webdev R-blogdown 
+- R-blogdown site
 
+### Day 50 
 
+- ML Data
+- Sklearn - Linear Regression
+- Numpy analysis
+
+### Day 51
+
+- TidyTuesday - Digital News Outlets
+
+### Day 52
+
+- Dplyr and LMer practise - R
+- DataViz using GGplot
+
+### Day 53
+
+- More R practise
+- R stats and PCA basics
+
+### Day 54
 
 
 
