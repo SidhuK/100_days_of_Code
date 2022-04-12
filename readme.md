@@ -225,7 +225,12 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 - More R practise
 - R stats and PCA basics
 
-### Day 54
+### Day 54, 55, 56
+- Data analysis R - and Data Viz.
+- Video Games Dataset
+- R markdown -detailed analysis.
+
+
 
 
 
