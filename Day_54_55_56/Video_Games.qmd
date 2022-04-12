@@ -1,7 +1,9 @@
 ---
-title: "Video_Games_Data"
+title: "Video Games Dataset Analysis"
 author: "Karat Sidhu"
-format: html
+format: markdown_github
+fig-width: 10
+fig-height: 8
 editor: visual
 ---
 
@@ -13,28 +15,128 @@ editor: visual
 library(tidyverse)
 ```
 
-# Loading the data;
+## Loading Dataset;
 
-## Checking columns and data overview.
+### Checking columns & data overview
 
 ```{r}
+games_data <- read.csv("vgsales.csv",
+                       na.strings = c(NA, "N/A", " NA"))
+# the NA strings were weird here, so needed to add those arguments.
+```
 
-games_data <- read.csv("vgsales.csv")
+```{r}
+as_tibble(lapply(games_data, class))
 ```
 
 ```{r}
 head(games_data)
+
 ```
 
-### Some Basic Graphs
+## Data Integrity Check
+
+### Checking to see if any NA's are present in the dataset.
 
 ```{r}
+games_data %>%  
+  summarise_all(~sum(is.na(.)))
+```
+
+### Dropping NA values (just to make it easier to visualize)
+
+```{r}
+games_data <- na.omit(games_data)
+```
+
+## Games per year
+
+```{r}
+
+games_counts_genre <- games_data %>% 
+  group_by(Year, Genre) %>% summarise(Number = n())
+
+as.tibble(games_counts_genre)
+```
+
+```{r}
+ggplot(games_counts_genre, aes(x = Year, y = Number, color = Genre)) +
+  geom_point(size = 0.5) +
+  geom_line() +
+  scale_color_manual(
+    values = c(
+      Action = "#E41A1C",
+      Adventure = "#75597F",
+      Fighting = "#3D8B9A",
+      Misc = "#4AAA54",
+      Platform = "#757A7A",
+      Puzzle = "#AA5685",
+      Racing = "#EC761D",
+      `Role-Playing` = "#FFB917",
+      Shooter = "#F6EF31",
+      Simulation = "#BE842A",
+      Sports = "#C3655E",
+      Strategy = "#F781BF"
+    )
+  ) +
+  xlim(1980, 2016) +
+  theme_minimal()
+```
+
+## Top 5 Genres
+
+```{r}
+games_data %>% 
+  group_by(Genre) %>% 
+  summarise(Total = n()) %>% 
+  arrange(desc(Total)) %>% head(6) %>% 
+  ggplot(aes(x= reorder(Genre, -Total), y= Total, fill= Genre)) +
+  geom_col() + 
+  scale_fill_manual(
+    values = c(
+      Action = "#E41A1C",
+      Adventure = "#75597F",
+      Misc = "#4AAA54",
+      `Role-Playing` = "#FFB917",
+      Shooter = "#F6EF31",
+      Sports = "#C3655E"
+    )
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+
+games_data %>%
+  group_by(Genre, Year) %>%
+  summarise(Total = n()) %>%
+  filter(Genre %in% c("Action", "`Role-Playing`", "Shooter", "Sports", "Adventure")) %>%
+  ungroup() %>%
+  ggplot(aes(x = Year, y = Total, colour = Genre)) +
+  geom_point(size = 0.5) +
+  geom_line() +
+  scale_color_manual(
+    values = c(
+      Action = "#E41A1C",
+      Adventure = "#75597F",
+      `Role-Playing` = "#FFB917",
+      Shooter = "#F6EF31",
+      Sports = "#C3655E"
+    )
+  ) +
+  xlim(1980, 2016) +
+  theme_minimal()
+```
+
+## Nintendo Gaming
+
+```{r fig.width=15, fig.height=8}
 
 
 games_data %>%
   filter(Platform %in% c("Wii", "NES", "GB", "DS", "SNES", "3DS", "N64", "GC", "WiiU", "3DO")) %>%
-  ggplot() +
-  aes(x = Platform, fill = Genre) +
+  ggplot(aes(x = Platform, fill = Genre)) +
   geom_bar(position = "dodge") +
   scale_fill_manual(
     values = c(
@@ -65,8 +167,9 @@ games_data %>%
   facet_wrap(vars(Genre), scales = "free")
 ```
 
-```{r}
+## PC Gaming
 
+```{r}
 
 games_data %>%
   filter(Platform %in% "PC") %>%
