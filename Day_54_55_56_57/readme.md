@@ -2,7 +2,7 @@ Video Games Dataset Analysis
 ================
 Karat Sidhu
 
-# Video Games Data Analysis
+# Video Games
 
 ## Loading Libraries
 
@@ -21,15 +21,15 @@ library(tidyverse)
     x dplyr::filter() masks stats::filter()
     x dplyr::lag()    masks stats::lag()
 
-## Loading Dataset;
-
-### Checking columns & data overview
+## Loading data
 
 ``` r
 games_data <- read.csv("vgsales.csv",
                        na.strings = c(NA, "N/A", " NA"))
 # the NA strings were weird here, so needed to add those arguments.
 ```
+
+## Checking columns & data overview
 
 ``` r
 as_tibble(lapply(games_data, class))
@@ -62,7 +62,7 @@ head(games_data)
 
 ## Data Integrity Check
 
-### Checking to see if any NA’s are present in the dataset.
+### Checking to see if any N/A’s are present in the data.
 
 ``` r
 games_data %>%  
@@ -74,7 +74,9 @@ games_data %>%
       Other_Sales Global_Sales
     1           0            0
 
-### Dropping NA values (just to make it easier to visualize)
+### Dropping N/A values
+
+(just to make it easier to visualize)
 
 ``` r
 games_data <- na.omit(games_data)
@@ -83,15 +85,23 @@ games_data <- na.omit(games_data)
 ## Games per year
 
 ``` r
-games_counts_genre <- games_data %>% 
-  group_by(Year, Genre) %>% summarise(Number = n())
+games_data %>% 
+  group_by(Year) %>% 
+  summarise(Total_Games = n()) %>% 
+  ggplot(aes(x=Year, y=Total_Games)) +
+  geom_col(color = "black", fill="tan") +
+  theme_minimal() 
 ```
 
-    `summarise()` has grouped output by 'Year'. You can override using the
-    `.groups` argument.
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-7-1.png)
+
+## Games per genre per year
 
 ``` r
-as.tibble(games_counts_genre)
+games_data %>% 
+  group_by(Year, Genre) %>% 
+  summarise(Number = n()) %>% 
+  as.tibble()
 ```
 
     Warning: `as.tibble()` was deprecated in tibble 2.0.0.
@@ -99,6 +109,9 @@ as.tibble(games_counts_genre)
     The signature and semantics have changed, see `?as_tibble`.
     This warning is displayed once every 8 hours.
     Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+
+    `summarise()` has grouped output by 'Year'. You can override using the
+    `.groups` argument.
 
     # A tibble: 389 × 3
         Year Genre    Number
@@ -116,9 +129,12 @@ as.tibble(games_counts_genre)
     # … with 379 more rows
 
 ``` r
-ggplot(games_counts_genre, aes(x = Year, y = Number, colour = Genre)) +
-  geom_point(size = 0.5) +
-  geom_line() +
+games_data %>% 
+  group_by(Year, Genre) %>% 
+  summarise(Number = n()) %>%
+  ggplot(aes(x = Year, y = Number, color = Genre)) +
+  geom_point(size = 2) +
+  geom_line(size = 1) +
   scale_color_manual(
     values = c(
       Action = "#E41A1C",
@@ -139,57 +155,59 @@ ggplot(games_counts_genre, aes(x = Year, y = Number, colour = Genre)) +
   theme_minimal()
 ```
 
+    `summarise()` has grouped output by 'Year'. You can override using the
+    `.groups` argument.
+
     Warning: Removed 3 rows containing missing values (geom_point).
 
     Warning: Removed 3 row(s) containing missing values (geom_path).
 
-![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 ## Top 5 Genres
+
+(Top 6 calculated; added another since Misc was one of the categories)
 
 ``` r
 games_data %>% 
   group_by(Genre) %>% 
   summarise(Total = n()) %>% 
   arrange(desc(Total)) %>% head(6) %>% 
-  ggplot(aes(x= Genre, y= Total, fill= Genre)) +
+  ggplot(aes(x= reorder(Genre, -Total), y= Total, fill= Genre)) +
   geom_col() + 
   scale_fill_manual(
     values = c(
       Action = "#E41A1C",
       Adventure = "#75597F",
-      Fighting = "#3D8B9A",
       Misc = "#4AAA54",
-      Platform = "#757A7A",
-      Puzzle = "#AA5685",
-      Racing = "#EC761D",
       `Role-Playing` = "#FFB917",
       Shooter = "#F6EF31",
-      Simulation = "#BE842A",
-      Sports = "#C3655E",
-      Strategy = "#F781BF"
+      Sports = "#C3655E"
     )
   ) +
-  theme_minimal()
+  theme_minimal() +
+  xlab(element_blank()) +
+  ylab(element_blank()) +
+  theme(legend.position = "none")
 ```
 
-![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-9-1.png)
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 ``` r
-games_data %>% 
-  group_by(Genre, Year) %>% 
-  summarise(Total = n()) %>% 
-  filter(Genre %in% c("Action","`Role-Playing`", "Shooter","Sports", "Adventure")) %>% 
-  ungroup() %>% 
-  ggplot( aes(x = Year, y = Total, colour = Genre)) +
-  geom_point(size = 0.5) +
-  geom_line() +
+games_data %>%
+  group_by(Genre, Year) %>%
+  summarise(Total = n()) %>%
+  filter(Genre %in% c("Action", "`Role-Playing`", "Shooter", "Sports", "Adventure")) %>%
+  ungroup() %>%
+  ggplot(aes(x = Year, y = Total, colour = Genre)) +
+  geom_point(size = 2) +
+  geom_line(size= 1) +
   scale_color_manual(
     values = c(
       Action = "#E41A1C",
       Adventure = "#75597F",
       `Role-Playing` = "#FFB917",
-      Shooter = "#F6EF31",
+      Shooter = "#B9EF31",
       Sports = "#C3655E"
     )
   ) +
@@ -204,7 +222,136 @@ games_data %>%
 
     Warning: Removed 1 row(s) containing missing values (geom_path).
 
-![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-10-1.png)
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-11-1.png)
+
+## Global Sales Variation per year
+
+``` r
+games_data %>%
+ filter(!(Year %in% c("2020", "2017"))) %>%
+ ggplot() +
+ aes(x =as.factor(Year), y = Global_Sales) +
+ geom_boxplot(fill = "#FFFFFF") +
+ scale_y_continuous(trans = "log10") +
+  xlab(element_blank()) +
+  ylab(element_blank())
+```
+
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-12-1.png)
+
+## Top Grossing Games of all time
+
+Looks like the data is already arranged in leading sales figure
+
+``` r
+games_data %>% 
+  head(20) %>% 
+  ggplot(aes(x=reorder(Name,-Global_Sales), y= Global_Sales, fill=Genre)) +
+  geom_col() +
+  scale_fill_manual(
+    values = c(
+      Action = "#1B9E77",
+      Adventure = "#93752C",
+      Fighting = "#BD6332",
+      Misc = "#7E6EA2",
+      Platform = "#B3499C",
+      Puzzle = "#CF3F76",
+      Racing = "#7D8F31",
+      `Role-Playing` = "#A0A811",
+      Shooter = "#E0A604",
+      Simulation = "#B78415",
+      Sports = "#8E7037",
+      Strategy = "#666666"
+    )
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-13-1.png)
+
+## Best Selling Games for each year
+
+``` r
+games_data %>% 
+  group_by(Year) %>% 
+  arrange(desc(Global_Sales)) %>% 
+  slice(1) %>% 
+  ggplot(aes(y =reorder(Year, -Year), x= Global_Sales, fill = Genre)) +
+  geom_text(aes(label=Name), position=position_dodge(width=0.9), hjust=-0.05) +
+  geom_col() +
+  scale_fill_manual(
+    values = c(
+      Action = "#1B9E77",
+      Adventure = "#93752C",
+      Fighting = "#BD6332",
+      Misc = "#7E6EA2",
+      Platform = "#B3499C",
+      Puzzle = "#CF3F76",
+      Racing = "#7D8F31",
+      `Role-Playing` = "#A0A811",
+      Shooter = "#E0A604",
+      Simulation = "#B78415",
+      Sports = "#8E7037",
+      Strategy = "#666666"
+    )
+  ) +
+  theme_minimal() 
+```
+
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-14-1.png)
+
+## Most Active Platform over the years
+
+``` r
+games_data %>% 
+  group_by(Year, Platform) %>% 
+  summarise(Total_Games = n()) %>% 
+  arrange(Year) %>% 
+  ggplot(aes(x = Year, y=Platform, fill = Total_Games)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "darkgreen", mid = "white", high = "darkred", midpoint = 300) +
+  theme_minimal()
+```
+
+    `summarise()` has grouped output by 'Year'. You can override using the
+    `.groups` argument.
+
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-15-1.png)
+
+## Most Active Publisher (by number of Games)
+
+``` r
+publisher <- games_data %>% 
+  group_by(Publisher) %>% 
+  summarise(Total_Games = n()) %>%
+  arrange(desc(Total_Games)) %>% 
+  head(10)
+```
+
+``` r
+ggplot(publisher, aes(x = reorder(Publisher, Total_Games), fill = Publisher, y = Total_Games)) +
+  geom_col() +
+  scale_fill_manual(
+    values = c(Activision = "#E41A1C",
+    `Electronic Arts` = "#5D6795",
+    `Konami Digital Entertainment` = "#43997A",
+    `Namco Bandai Games` = "#658E67",
+    Nintendo = "#A35390",
+    Sega = "#F37912",
+    `Sony Computer Entertainment` = "#FFD422",
+    `Take-Two Interactive` = "#D7B32E",
+    THQ = "#B85F49",
+    Ubisoft = "#F781BF")
+  ) +
+  labs(y = "Number of Games",
+       x = "Publisher") +
+  coord_flip() +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-17-1.png)
 
 ## Nintendo Gaming
 
@@ -242,13 +389,13 @@ games_data %>%
   facet_wrap(vars(Genre), scales = "free")
 ```
 
-![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-18-1.png)
 
 ## PC Gaming
 
 ``` r
-games_data %>%
-  filter(Platform %in% "PC") %>%
+games_data   %>%
+  filter(Platform %in% "PC") %>% 
   ggplot() +
   aes(
     x = Year,
@@ -256,7 +403,7 @@ games_data %>%
     colour = Genre,
     group = Global_Sales
   ) +
-  geom_jitter(size = 1.5) +
+  geom_jitter(size = 2.5) +
   scale_color_manual(
     values = c(
       Action = "#7FC97F",
@@ -284,4 +431,25 @@ games_data %>%
   )
 ```
 
-![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-12-1.png)
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-19-1.png)
+
+## 
+
+## Correlation between Global vs all other sales
+
+``` r
+num_Sales=games_data[,c("NA_Sales","EU_Sales","JP_Sales","Other_Sales","Global_Sales")]
+correlation <- cor(num_Sales)
+```
+
+``` r
+ggcorrplot::ggcorrplot(correlation, hc.order = TRUE, outline.col = "white",
+                       type = "lower",
+                       colors = c("#6D9EC1", "white", "#E46726"),
+                       lab = TRUE,
+                       ggtheme = theme_minimal())
+```
+
+![](Video_Games.markdown_github_files/figure-markdown_github/unnamed-chunk-21-1.png)
+
+## 
