@@ -215,6 +215,8 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 
 - TidyTuesday - Digital News Outlets
 
+![image](/Day_51/April_05/export.png)
+
 ### Day 52
 
 - Dplyr and LMer practise - R
@@ -225,13 +227,18 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 - More R practise
 - R stats and PCA basics
 
-### Day 54, 55, 56
+### Day 54, 55, 56, 58
 - Data analysis R - and Data Viz.
 - Video Games Dataset
 - R markdown -detailed analysis.
 
+### Day 58
+- R - TidyTuesday
+- Fossil Fuels - Indoor Pollution Dataset
 
+![image](Day_58/change.png)
 
+### Day 59
 
 
 
