@@ -238,7 +238,7 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 
 ### Day 59
 - Largest Number without using max() function
-- 
+- F-Strings Practise
 
 
 ![Github_logo](https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png)
