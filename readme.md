@@ -15,8 +15,6 @@ I started using the 100 Days of Python Bootcamp to get back into python
 Link to the Course:
 https://www.udemy.com/course/100-days-of-code/
 
-![Python](https://static-01.daraz.lk/p/mdc/05df31e3776c549701fa6dce57c0efd6.png)
-
 ### Started On : 18 February, 2022
 
 I haven't managed to code in a long time (since the quarantine), so with this challenge to myself, I am hoping to get better versed in my coding skills.
@@ -215,7 +213,7 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 
 - TidyTuesday - Digital News Outlets
 
-![image](/Day_51/April_05/export.png)
+![image](Day_51/April_05/export.png)
 
 ### Day 52
 
@@ -239,7 +237,8 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 ![image](Day_58/change.png)
 
 ### Day 59
-
+- Largest Number without using max() function
+- 
 
 
 ![Github_logo](https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png)
