@@ -48,11 +48,13 @@ if __name__ == "__main__":
         cowbull_count = cowbulls(rand_number, user_number)
         guesses += 1
 
-        print("You have " + str(cowbull_count[0]) + " cows, and " + str(cowbull_count[1]) + " bulls.")
+        print("You have " + str(cowbull_count[0]) +
+              " cows, and " + str(cowbull_count[1]) + " bulls.")
 
         if cowbull_count[1] == 4:
-            playing = False
-            print("You win the game after " + str(guesses) + "! The number was " + str(rand_number))
+            still_playing = False
+            print("You win the game after " + str(guesses) +
+                  "! The number was " + str(rand_number))
             break  # redundant exit
         else:
             print("Your guess isn't quite right, try again.")

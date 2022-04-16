@@ -5,8 +5,8 @@
 # instead of the + operator to print the resulting output message.
 
 name = input("What is your name? : ")
-age = int(input("What is your age? : "))
+age_right_now = int(input("What is your age? : "))
 
-print(f"Hello {name}, you are {age} years old now, so "
-      f"it looks like you will turn 100 years old in another {100 - age} years")
+print(f"Hello {name}, you are {age_right_now} years old now, so "
+      f"it looks like you will turn 100 years old in another {100 - age_right_now} years")
 
