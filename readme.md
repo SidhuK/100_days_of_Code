@@ -1,12 +1,10 @@
 ![100 Days of Code](https://i0.wp.com/letslearnabout.net/wp-content/uploads/2018/12/aaaaaaaaaaaaaaaaaaaaab.jpg?fit=1200%2C500&ssl=1)
 
-
-
-# 100 Days of Code Challenge 
+# 100 Days of Code Challenge
 
 ## Visit my webpage for more:
-karat.rbind.io 
 
+karat.rbind.io
 
 ### My progress on the 100 Days of Code Challenge
 
@@ -21,25 +19,23 @@ I haven't managed to code in a long time (since the quarantine), so with this ch
 
 I hope to update this readme as I go, and add the relevant projects undertaken both here and on another repo possibly.
 
-
 ### Day 1
 
 - Basics of Python
 - Brushing up on the syntax
 - setting up the environment and plugins
 
-
 ### Day 2
 
- - Dictionaries
- - For loops
- - Functions
- - Hangman Game in Python
-
+- Dictionaries
+- For loops
+- Functions
+- Hangman Game in Python
 
 ### Day 3
+
 - Blackjack game in Python
-- Coffee Machine 
+- Coffee Machine
 - Higher lower function
 
 ### Day 4
@@ -47,24 +43,20 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 - Object Oriented Programming
 - Basics of OOP
 
-
 ### Day 5
 
 - Coffee machime make with OOP
-
 
 ### Day 6
 
 - Turtle Module
 - GUI
-- "__init__"
-
+- "**init**"
 
 ### Day 7
 
 - snake with GUI
 - Etch-a-sketch using custom functions
-
 
 ### Day 8
 
@@ -75,16 +67,15 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 - Tkinter
 - Widgets
 
-
 ### Day 10
 
-- TKinter password generator 
+- TKinter password generator
 - (Interesting app - TODO)
 
 ### Day 11
+
 - Error Handling
 - TKinter Password manager - part 2
-
 
 ### Day 12
 
@@ -103,107 +94,135 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 
 - Stock tracker using APIs
 
-
 ### Day 16
+
 - Basics of HTML5
 
 ### Day 17
 
 - More HTML5
 
-
 ### Day 18
+
 - Basics of CSS3
 
 ### Day 19
 
 - More CSS3
+
 ### Day 20
 
 - Spotify Tracker and playlist maker using Billboard top 100
 
 ### Day 21
+
 - Introduction to Flask
-  
+
 ### Day 22
+
 - Webpage using Flask
-  
+
 ### Day 23
+
 - Blog using Flask, with Forms
 
 ### Day 24
+
 - Bootstrap 5 practise
-  
+
 ### Day 25
+
 - Numpy and Pandas - Lego Analysis
-  
+
 ### Day 26
+
 - Matplotlib Google Trends
+
 ### Day 27
-- Numpy + Seborn 
+
+- Numpy + Seborn
 - linear regression
 
 ### Day 28
-- Nobel Prize Data Analysis 
+
+- Nobel Prize Data Analysis
 - Seaborn, Pandas
 
 ### Day 29 and 30
+
 - Multivariable and Regression analysis
 - Scikit-Learn
 
 ### Day 31
+
 - Morse Code generator project
 - Functions (extra)
 
 ### Day 32
+
 - Unicorn Companies - Kaggle Dataset
 
 ### Day 33
+
 - Tidytuesday March 22 Set
 
 ### Day 34
+
 - Github markdown and readme new.
 
 ### Day 35
+
 - Kaggle World Countries Analysis - EDA
-  
+
 ### Day 36
+
 - India Export
 - R and Rmarkdown - survival analysis
 
 ### Day 37
+
 - Pandas - Theory
-  
+
 ### Day 38 and 39
+
 - Spotify top charts with R
 
 ### Day 40
+
 - Tictac toe - game - project
-  
+
 ### Day 41
+
 - College Sports - TidyTuesday dataset
-  
+
 ### Day 42
 
 - Space Race Analysis - Pandas, Numpy, Seaborn
+
 ### Day 43 and 44
 
 - Fatal Force - Rmarkdown and R analysis
+
 ### Day 45
-- Image Recognition and pallette generator - 
+
+- Image Recognition and pallette generator -
 - Colorthief module Python
+
 ### Day 46
+
 - Life Waffle with R
 - Waffle package and GGplot2
 
-
 ### Day 47
+
 - Webdev Sidhuk.github.io
+
 ### Day 48 and 49
-- Webdev R-blogdown 
+
+- Webdev R-blogdown
 - R-blogdown site
 
-### Day 50 
+### Day 50
 
 - ML Data
 - Sklearn - Linear Regression
@@ -226,30 +245,26 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 - R stats and PCA basics
 
 ### Day 54, 55, 56, 58
+
 - Data analysis R - and Data Viz.
 - Video Games Dataset
 - R markdown -detailed analysis.
 
 ### Day 58
+
 - R - TidyTuesday
 - Fossil Fuels - Indoor Pollution Dataset
 
 ![image](Day_58/change.png)
 
 ### Day 59
+
 - Largest Number without using max() function
 - F-Strings Practise
 
+### Day 60
+
+- Luhn algorithm with R
+-
 
 ![Github_logo](https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png)
-
-
-
-
-
-
-
-
-
-
-
