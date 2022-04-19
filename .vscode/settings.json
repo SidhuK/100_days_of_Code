@@ -1,3 +1,6 @@
 {
-    "jupyter.jupyterServerType": "local"
+  "jupyter.jupyterServerType": "local",
+  "python.testing.pytestArgs": ["Day_59"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
 }

@@ -12,7 +12,7 @@ remove_spaces <- stringr::str_replace_all(enter_number, " ", "")
 digits <- as.integer(stringr::str_split(remove_spaces, "")[[1]])
 
 
-# If length of digits is false, or doesnt contain digits, then return f
+# If length of digits is false, or doesn't contain digits, then return f
 if (length(digits) < 2 || anyNA(digits)) {
   FALSE
 } else {

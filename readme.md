@@ -265,6 +265,37 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 ### Day 60
 
 - Luhn algorithm with R
--
+
+### Day 61, 62 and 63
+
+- Marvel Movies Dataset
+- Sklearn Model
+- Python pandas and sns analysis
+
+### Day 64
+
+- Correlation Matrix in R
+- R-Metabolomics Repo
+  ![image](Day_64/correlation_plot.png)
+
+### Day 65
+
+- Heatmaps, multi level functionality in R
+- using `pheatmap` package
+
+![image](Day_65/heatmap_final.png)
+
+### Day 66
+
+- PCA Analysis using `PCA Tools` package in R
+- Scree - Plot, Biplots etc
+
+![image](Day_66/p_final.png)
+
+### Day 67
+
+- ANOVA tables using `gt` package in R
+
+![image](Day_67/anova.png)
 
 ![Github_logo](https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png)
