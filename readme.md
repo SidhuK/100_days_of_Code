@@ -298,4 +298,16 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 
 ![image](Day_67/anova.png)
 
+### Day 68-70
+
+- Titanic Dataset check
+- R swirl() practise
+- Sapply, lapply functions
+
+### Day 71
+
+- Tidytuesday
+
+![img](Day_71/times_answers.png)
+
 ![Github_logo](https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png)

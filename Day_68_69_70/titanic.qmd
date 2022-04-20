@@ -1,0 +1,40 @@
+---
+title: "Titanic"
+format: html
+editor: visual
+---
+
+# Titanic
+
+## Basic data visualization and statistical analysis
+
+## Loading libraries
+
+```{r}
+
+library(tidyverse)
+
+```
+
+## Loading data
+
+```{r}
+
+titanic_data <- read.csv("titanic_subset.csv")
+```
+
+```{r}
+
+titanic_data$Survived <- as.factor(titanic_data$Survived)
+```
+
+```{r}
+titanic_data <- titanic_data %>% 
+  mutate(Survived = ifelse(Survived == 0, "No", "Yes"))
+
+```
+
+```{r}
+
+
+```
