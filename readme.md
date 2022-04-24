@@ -310,4 +310,16 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 
 ![img](Day_71/times_answers.png)
 
+### Day 72 and 73
+
+- KMeans Clustering Using R
+- `factoextra` package
+
+### Day 74 to 80
+
+- Netflix Data analysis
+- Data Wrangling read-up
+- Kaggle EDA
+- Skipped a day due to travel.
+
 ![Github_logo](https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png)
