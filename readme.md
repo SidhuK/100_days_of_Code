@@ -322,4 +322,10 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 - Kaggle EDA
 - Skipped a day due to travel.
 
+### Day 81 to 85
+
+- Amazon Bestsellers
+- Kmeans Analysis
+- Cluster Analysis
+
 ![Github_logo](https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png)
