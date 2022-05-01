@@ -328,4 +328,15 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 - Kmeans Analysis
 - Cluster Analysis
 
+### Day 86
+
+- TidyTuesday
+- Kaggle.com dataset
+- Hidden gems wordcloud
+
+### Day 87 and 88
+
+- Linear regression in Python
+- SKlearn a bit.
+
 ![Github_logo](https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png)
