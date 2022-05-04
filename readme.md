@@ -339,4 +339,9 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 - Linear regression in Python
 - SKlearn a bit.
 
+### Day 88
+
+- Tidytuesday Solar Wind Power capacity
+  ![image](Day_89/plot.png)
+
 ![Github_logo](https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png)
