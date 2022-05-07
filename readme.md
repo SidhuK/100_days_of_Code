@@ -350,4 +350,17 @@ I hope to update this readme as I go, and add the relevant projects undertaken b
 - Data EDA
 - Correlation and Clustering
 
+### Day 94 to 96
+
+- Github site tweaks
+- site design and functions changed
+- medium publishing
+
+### Day 97 to 100
+
+- Kaggle Dataset
+- jupyter notebook
+- mergers data
+- seaborn practice
+
 ![Github_logo](https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png)
